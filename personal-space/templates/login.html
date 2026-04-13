@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In — Personal Space</title>
+  <meta name="description" content="Log in to your Personal Space diary and continue your writing journey.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="floating-particles" id="particles"></div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">
+            {% if category == 'success' %}✅{% else %}⚠️{% endif %}
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <header class="site-header">
+    <a href="{{ url_for('home') }}" class="logo">
+      <div class="logo-icon">📖</div>
+      <span class="logo-text">Personal Space</span>
+    </a>
+    <nav class="nav-links">
+      <a href="{{ url_for('signup') }}" class="btn btn-primary">Sign Up ✨</a>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <!-- Stickers floating around -->
+    <span class="sticker" style="top:15%;left:10%;animation-delay:0s;">💜</span>
+    <span class="sticker" style="top:25%;right:12%;animation-delay:1.2s;font-size:28px;">🌸</span>
+    <span class="sticker" style="bottom:20%;left:8%;animation-delay:0.8s;">✨</span>
+    <span class="sticker" style="bottom:28%;right:10%;animation-delay:2s;font-size:28px;">🦋</span>
+
+    <div class="glass-card auth-card">
+      <div class="auth-header">
+        <div class="auth-icon">🌸</div>
+        <h1 class="auth-title">Welcome back!</h1>
+        <p class="auth-subtitle">Your diary missed you 💕</p>
+      </div>
+
+      <form method="POST" id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <div class="form-input-icon">
+            <span class="icon">📧</span>
+            <input
+              class="form-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="form-input-icon">
+            <span class="icon">🔑</span>
+            <input
+              class="form-input"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Your secret key..."
+              required
+              autocomplete="current-password"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary form-submit" id="login-btn">
+          Log In to My Space 💖
+        </button>
+      </form>
+
+      <p class="form-footer">
+        New here? <a href="{{ url_for('signup') }}">Create your account →</a>
+      </p>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

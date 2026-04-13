@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 Games — Personal Space</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="floating-particles" id="particles"></div>
+
+  <header class="site-header">
+    <a href="{{ url_for('home') }}" class="logo">
+      <div class="logo-icon">📖</div>
+      <span class="logo-text">Personal Space</span>
+    </a>
+    <nav class="nav-links">
+      <a href="{{ url_for('diary') }}" class="btn btn-ghost">← Back to Diary</a>
+      <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout 👋</a>
+    </nav>
+  </header>
+
+  <div class="games-page-layout">
+    <div class="section-badge" style="margin-bottom:12px;">🎮 Games Corner</div>
+    <h1 class="section-title" style="margin-bottom:8px;">Take a <span class="gradient-text">cozy break</span></h1>
+    <p class="section-sub" style="margin-bottom:32px;">Hi {{ user }}! Pick a game and relax for a bit 🌸</p>
+
+    <!-- Game Tabs -->
+    <div class="game-tabs">
+      <button class="game-tab active" data-game="star">⭐ Star Catcher</button>
+      <button class="game-tab" data-game="memory">🌸 Memory Bloom</button>
+      <button class="game-tab" data-game="bubble">🫧 Bubble Pop</button>
+    </div>
+
+    <!-- STAR CATCHER -->
+    <div class="game-panel active" id="panel-star">
+      <div class="game-info-bar">
+        <span class="game-desc">Move mouse / use ← → keys to catch falling stars! 🧺</span>
+        <button class="btn btn-primary" onclick="starGame && starGame.start()" style="padding:8px 20px;font-size:13px;">▶ Start Game</button>
+      </div>
+      <canvas id="star-canvas" width="700" height="420"></canvas>
+    </div>
+
+    <!-- MEMORY BLOOM -->
+    <div class="game-panel" id="panel-memory">
+      <div class="game-info-bar">
+        <div class="game-stats">
+          <span>🔄 Moves: <b id="memory-moves">0</b></span>
+          <span>⏱ Time: <b id="memory-timer">0s</b></span>
+        </div>
+        <button class="btn btn-primary" onclick="memoryGame && memoryGame.reset()" style="padding:8px 20px;font-size:13px;">🔀 New Game</button>
+      </div>
+      <div id="memory-msg" class="game-win-msg" style="display:none;"></div>
+      <div id="memory-board" class="memory-board"></div>
+    </div>
+
+    <!-- BUBBLE POP -->
+    <div class="game-panel" id="panel-bubble">
+      <div class="game-info-bar">
+        <div class="game-stats">
+          <span>💥 Score: <b id="bubble-score">0</b></span>
+          <span>⏱ Time: <b id="bubble-timer">30</b>s</span>
+        </div>
+        <button class="btn btn-primary" onclick="bubbleGame && bubbleGame.start()" style="padding:8px 20px;font-size:13px;">▶ Start</button>
+      </div>
+      <div id="bubble-msg" class="game-win-msg" style="display:none;"></div>
+      <div id="bubble-arena" class="bubble-arena"></div>
+    </div>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='games.js') }}"></script>
+</body>
+</html>

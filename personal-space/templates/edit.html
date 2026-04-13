@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Entry — Personal Space</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="floating-particles" id="particles"></div>
+
+  <header class="site-header">
+    <a href="{{ url_for('home') }}" class="logo">
+      <div class="logo-icon">📖</div>
+      <span class="logo-text">Personal Space</span>
+    </a>
+    <nav class="nav-links">
+      <a href="{{ url_for('diary') }}" class="btn btn-ghost">← Back to Diary</a>
+    </nav>
+  </header>
+
+  <div class="edit-page">
+    <div class="glass-card edit-card">
+      <div class="edit-header">
+        <span class="edit-icon">✏️</span>
+        <h1 class="edit-title">Edit Your Entry</h1>
+        <p class="edit-subtitle">Refine your thoughts and feelings 💕</p>
+      </div>
+
+      <form method="POST" id="edit-form">
+        <div class="form-group">
+          <label class="form-label" for="edit-content">Your Entry</label>
+          <textarea
+            class="form-textarea"
+            id="edit-content"
+            name="content"
+            style="min-height: 240px;"
+            required
+            oninput="updateCharCounter()"
+          >{{ entry[0] }}</textarea>
+          <span class="char-counter" id="char-counter" style="display:block;text-align:right;margin-top:6px;"></span>
+        </div>
+
+        <div class="edit-actions">
+          <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center;" id="save-edit-btn">
+            Save Changes 💌
+          </button>
+          <a href="{{ url_for('diary') }}" class="btn btn-secondary" style="justify-content:center;">
+            Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script>
+    // Init char counter on page load
+    const ta = document.getElementById('edit-content');
+    if (ta) {
+      document.getElementById('char-counter').textContent = ta.value.length + ' characters';
+    }
+  </script>
+</body>
+</html>

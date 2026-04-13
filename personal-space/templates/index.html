@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Space — Your Private Diary</title>
+  <meta name="description" content="Personal Space is your cozy, private digital diary with mini-games. Write your thoughts and have fun!">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="scroll-page">
+
+  <!-- Floating Particles -->
+  <div class="floating-particles" id="particles"></div>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">
+            {% if category == 'success' %}✅{% else %}⚠️{% endif %}
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- Sticky Nav -->
+  <header class="site-header" id="main-header">
+    <a href="#home" class="logo scroll-link">
+      <div class="logo-icon">📖</div>
+      <span class="logo-text">Personal Space</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#home"     class="nav-dot-link scroll-link" data-target="home">Home</a>
+      <a href="#features" class="nav-dot-link scroll-link" data-target="features">About</a>
+      <a href="#games"    class="nav-dot-link scroll-link" data-target="games">🎮 Games</a>
+      <a href="{{ url_for('login') }}"  class="btn btn-ghost">Log In</a>
+      <a href="{{ url_for('signup') }}" class="btn btn-primary">Get Started ✨</a>
+    </nav>
+  </header>
+
+  <!-- Scroll Progress Dots -->
+  <div class="scroll-dots-nav">
+    <button class="sdot active" data-target="home"     title="Home">●</button>
+    <button class="sdot"        data-target="features" title="About">●</button>
+    <button class="sdot"        data-target="games"    title="Games">●</button>
+    <button class="sdot"        data-target="cta"      title="Start">●</button>
+  </div>
+
+  <!-- ╔══════════════════════════════╗
+       ║  SECTION 1 — HERO           ║
+       ╚══════════════════════════════╝ -->
+  <section class="scroll-section" id="home">
+    <span class="sticker" style="top:14%;left:7%;">💖</span>
+    <span class="sticker" style="top:22%;right:9%;font-size:28px;">🌸</span>
+    <span class="sticker" style="bottom:22%;left:5%;font-size:30px;">✨</span>
+    <span class="sticker" style="bottom:18%;right:7%;font-size:32px;">🌙</span>
+    <span class="sticker" style="top:55%;left:3%;font-size:24px;">🦋</span>
+    <span class="sticker" style="top:42%;right:4%;font-size:26px;">🌟</span>
+
+    <div class="hero-content">
+      <div class="hero-badge">🌸 Your cozy corner of the internet</div>
+      <h1 class="hero-title">
+        Your thoughts deserve a<br>
+        <span class="gradient-text">beautiful home</span>
+      </h1>
+      <p class="hero-subtitle">
+        Personal Space is your private, secure digital diary — write freely,
+        explore your feelings, and capture life's precious moments.
+      </p>
+      <div class="hero-cta">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary" style="padding:14px 36px;font-size:16px;">Start Writing 💫</a>
+        <a href="#features"  class="btn btn-secondary scroll-link" style="padding:14px 28px;font-size:16px;">Learn More ↓</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-hint-arrow">↓</div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════╗
+       ║  SECTION 2 — FEATURES       ║
+       ╚══════════════════════════════╝ -->
+  <section class="scroll-section" id="features">
+    <div class="section-inner">
+      <div class="section-badge">💜 Why Personal Space?</div>
+      <h2 class="section-title">Everything you need for <span class="gradient-text">your story</span></h2>
+      <p class="section-sub">A beautiful sanctuary where your words always feel at home.</p>
+
+      <div class="features-grid">
+        <div class="feature-card glass-card animate-on-scroll">
+          <div class="feature-icon">🔒</div>
+          <h3>100% Private</h3>
+          <p>Your entries are protected with secure password hashing. Only you can see your thoughts.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll" style="animation-delay:0.1s;">
+          <div class="feature-icon">🎨</div>
+          <h3>Beautiful Design</h3>
+          <p>A stunning pastel aesthetic with glassmorphism, animations, and a cozy vibe every time you open it.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll" style="animation-delay:0.2s;">
+          <div class="feature-icon">📊</div>
+          <h3>Track Your Journey</h3>
+          <p>See your entry count and total words written — watch your story grow day by day.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll" style="animation-delay:0.3s;">
+          <div class="feature-icon">😊</div>
+          <h3>Mood Tracker</h3>
+          <p>Tag each entry with your mood using cute emoji stickers. Express exactly how you feel.</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll" style="animation-delay:0.4s;">
+          <div class="feature-icon">🎮</div>
+          <h3>Mini Games</h3>
+          <p>Take a mental break and play cute mini-games — Star Catcher, Memory Bloom, and Bubble Pop!</p>
+        </div>
+        <div class="feature-card glass-card animate-on-scroll" style="animation-delay:0.5s;">
+          <div class="feature-icon">💌</div>
+          <h3>Daily Inspiration</h3>
+          <p>A fresh motivational quote every day to spark your writing and lift your spirits.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════╗
+       ║  SECTION 3 — GAMES          ║
+       ╚══════════════════════════════╝ -->
+  <section class="scroll-section games-section" id="games">
+    <div class="section-inner" style="width:100%;max-width:980px;">
+      <div class="section-badge">🎮 Take a Break</div>
+      <h2 class="section-title">Play cute <span class="gradient-text">mini-games</span></h2>
+      <p class="section-sub">Need a breather from journaling? These cozy games are here for you 🌸</p>
+
+      <!-- Game Tabs -->
+      <div class="game-tabs">
+        <button class="game-tab active" data-game="star">⭐ Star Catcher</button>
+        <button class="game-tab" data-game="memory">🌸 Memory Bloom</button>
+        <button class="game-tab" data-game="bubble">🫧 Bubble Pop</button>
+      </div>
+
+      <!-- STAR CATCHER -->
+      <div class="game-panel active" id="panel-star">
+        <div class="game-info-bar">
+          <span class="game-desc">Move your mouse (or ← → keys) to catch falling stars! 🧺</span>
+          <button class="btn btn-primary" onclick="starGame && starGame.start()" style="padding:8px 20px;font-size:13px;">▶ Start Game</button>
+        </div>
+        <canvas id="star-canvas" width="700" height="400"></canvas>
+      </div>
+
+      <!-- MEMORY BLOOM -->
+      <div class="game-panel" id="panel-memory">
+        <div class="game-info-bar">
+          <div class="game-stats">
+            <span>🔄 Moves: <b id="memory-moves">0</b></span>
+            <span>⏱ Time: <b id="memory-timer">0s</b></span>
+          </div>
+          <button class="btn btn-primary" onclick="memoryGame && memoryGame.reset()" style="padding:8px 20px;font-size:13px;">🔀 Shuffle</button>
+        </div>
+        <div id="memory-msg" class="game-win-msg" style="display:none;"></div>
+        <div id="memory-board" class="memory-board"></div>
+      </div>
+
+      <!-- BUBBLE POP -->
+      <div class="game-panel" id="panel-bubble">
+        <div class="game-info-bar">
+          <div class="game-stats">
+            <span>💥 Score: <b id="bubble-score">0</b></span>
+            <span>⏱ Time: <b id="bubble-timer">30</b>s</span>
+          </div>
+          <button class="btn btn-primary" onclick="bubbleGame && bubbleGame.start()" style="padding:8px 20px;font-size:13px;">▶ Start</button>
+        </div>
+        <div id="bubble-msg" class="game-win-msg" style="display:none;"></div>
+        <div id="bubble-arena" class="bubble-arena"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════╗
+       ║  SECTION 4 — CTA            ║
+       ╚══════════════════════════════╝ -->
+  <section class="scroll-section cta-section" id="cta">
+    <span class="sticker" style="top:18%;left:8%;font-size:40px;">💖</span>
+    <span class="sticker" style="bottom:20%;right:7%;font-size:38px;">🌸</span>
+    <span class="sticker" style="top:30%;right:12%;font-size:28px;">✨</span>
+    <span class="sticker" style="bottom:28%;left:10%;font-size:32px;">🦋</span>
+
+    <div class="cta-content glass-card">
+      <div class="cta-icon">📖</div>
+      <h2 class="cta-title">Ready to write your <span class="gradient-text">story</span>?</h2>
+      <p class="cta-sub">Join thousands of writers who call Personal Space home. It's free, private, and beautiful 🌸</p>
+      <div class="hero-cta" style="margin-top:32px;">
+        <a href="{{ url_for('signup') }}" class="btn btn-primary" style="padding:16px 42px;font-size:17px;">Open My Personal Space 💫</a>
+        <a href="{{ url_for('login') }}"  class="btn btn-secondary" style="padding:16px 28px;font-size:17px;">I have an account</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <script src="{{ url_for('static', filename='games.js') }}"></script>
+</body>
+</html>

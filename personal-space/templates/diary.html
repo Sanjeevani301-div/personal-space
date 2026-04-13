@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Diary — Personal Space</title>
+  <meta name="description" content="Write your thoughts and manage your diary entries in Personal Space.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <div class="floating-particles" id="particles"></div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-messages">
+    {% for category, message in messages %}
+    <div class="flash {{ category }}">
+      {% if category == 'success' %}✅{% else %}⚠️{% endif %}
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <header class="site-header">
+    <a href="{{ url_for('home') }}" class="logo">
+      <div class="logo-icon">📖</div>
+      <span class="logo-text">Personal Space</span>
+    </a>
+    <nav class="nav-links">
+      <a href="{{ url_for('games') }}" class="btn btn-ghost"
+        style="background:linear-gradient(135deg,#fde8f0,#f0ecff);border:1.5px solid #f4a3bf;color:#e85d8a;font-weight:700;">🎮
+        Games</a>
+      <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout 👋</a>
+    </nav>
+  </header>
+
+  <div class="diary-layout">
+
+    <!-- Sidebar -->
+    <aside class="diary-sidebar">
+      <div class="glass-card diary-sidebar-card">
+        <div class="user-welcome">
+          <div class="user-avatar">🦋</div>
+          <p class="user-name">{{ user }}</p>
+          <p class="user-tagline">Writing my story ✨</p>
+        </div>
+
+        <div class="sidebar-stats">
+          <div class="stat-box">
+            <div class="stat-number">{{ entries|length }}</div>
+            <div class="stat-label">Entries</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">
+              {% set total_words = namespace(count=0) %}
+              {% for e in entries %}
+              {% set total_words.count = total_words.count + e[2].split()|length %}
+              {% endfor %}
+              {{ total_words.count }}
+            </div>
+            <div class="stat-label">Words</div>
+          </div>
+        </div>
+
+        <div class="sidebar-mood">
+          <p class="sidebar-mood-title">Today's mood</p>
+          <div class="mood-emojis">
+            <span class="mood-emoji" title="Happy" onclick="addMood(this,'😊')">😊</span>
+            <span class="mood-emoji" title="Loved" onclick="addMood(this,'💖')">💖</span>
+            <span class="mood-emoji" title="Dreamy" onclick="addMood(this,'🌙')">🌙</span>
+            <span class="mood-emoji" title="Inspired" onclick="addMood(this,'✨')">✨</span>
+            <span class="mood-emoji" title="Calm" onclick="addMood(this,'🌸')">🌸</span>
+            <span class="mood-emoji" title="Sad" onclick="addMood(this,'🥺')">🥺</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <p class="sidebar-mood-title">Daily Quote</p>
+          <p id="daily-quote"
+            style="font-size:13px;color:var(--text-mid);font-style:italic;line-height:1.6;margin-top:8px;padding:12px;background:rgba(255,255,255,0.4);border-radius:10px;border-left:3px solid var(--pink-300);">
+            ✨</p>
+        </div>
+
+        <!-- Games shortcut in sidebar -->
+        <a href="{{ url_for('games') }}" class="btn btn-primary sidebar-nav-btn"
+          style="justify-content:center;text-align:center;text-decoration:none;">
+          🎮 Play Mini-Games
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Diary -->
+    <main class="diary-main">
+      <div class="diary-header">
+        <div class="diary-title-section">
+          <h1>My Diary 📖</h1>
+          <p id="current-date">Today is a beautiful day to write ✨</p>
+        </div>
+      </div>
+
+      <!-- New Entry -->
+      <div class="glass-card new-entry-card">
+        <div class="new-entry-header">
+          <span style="font-size:24px;">💌</span>
+          <h2>New Entry</h2>
+        </div>
+
+        <form method="POST" class="entry-form" id="entry-form">
+          <div class="entry-toolbar">
+            <button type="button" class="toolbar-btn" onclick="insertText('*bold*')">𝐁</button>
+            <button type="button" class="toolbar-btn" onclick="insertText('_italic_')">𝐼</button>
+            <button type="button" class="toolbar-btn" onclick="insertText('💖 ')">💖</button>
+            <button type="button" class="toolbar-btn" onclick="insertText('🌸 ')">🌸</button>
+            <button type="button" class="toolbar-btn" onclick="insertText('✨ ')">✨</button>
+            <button type="button" class="toolbar-btn" onclick="insertText('🌙 ')">🌙</button>
+            <button type="button" class="toolbar-btn" onclick="insertText('💫 ')">💫</button>
+            <button type="button" class="toolbar-btn" onclick="insertText('🦋 ')">🦋</button>
+          </div>
+          <textarea class="form-textarea" id="entry-textarea" name="content"
+            placeholder="Dear Diary... what's on your mind today? 🌸" required oninput="updateCharCounter()"></textarea>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span class="char-counter" id="char-counter">0 characters</span>
+            <button type="submit" class="btn btn-primary" id="add-entry-btn">Save Entry 💌</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Entries List -->
+      <div>
+        <div class="entries-header">
+          <h2 class="entries-title">My Memories 🌸</h2>
+          <span class="entries-count">{{ entries|length }} entries</span>
+        </div>
+
+        {% if entries %}
+        <div class="entries-grid">
+          {% for entry in entries %}
+          <div class="glass-card entry-card" style="animation-delay:{{ loop.index0 * 0.08 }}s;">
+            <div class="entry-card-header">
+              <div class="entry-date">
+                <span style="font-size:16px;">📅</span>
+                <span class="entry-date-text">{{ entry[3] }}</span>
+              </div>
+              <div class="entry-actions">
+                <a href="{{ url_for('edit', id=entry[0]) }}" class="btn-edit">✏️ Edit</a>
+                <form method="POST" action="{{ url_for('delete', id=entry[0]) }}" style="display:inline;"
+                  class="delete-form">
+                  <button type="submit" class="btn btn-danger" title="Delete this entry">🗑️</button>
+                </form>
+              </div>
+
+            </div>
+            <div class="entry-content truncated" id="entry-content-{{ entry[0] }}">{{ entry[2] }}</div>
+            <div class="entry-footer">
+              <span class="entry-word-count">{{ entry[2].split()|length }} words</span>
+              <button class="read-more-btn" onclick="toggleEntry({{ entry[0] }}, this)">Read more →</button>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        {% else %}
+        <div class="glass-card empty-state">
+          <span class="empty-state-icon">📝</span>
+          <h3>Your story starts here</h3>
+          <p>Write your first entry above and begin your journey ✨</p>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>

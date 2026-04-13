@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — Personal Space</title>
+  <meta name="description" content="Create your Personal Space account and start your private diary journey today.">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="floating-particles" id="particles"></div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">
+            {% if category == 'success' %}✅{% else %}⚠️{% endif %}
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <header class="site-header">
+    <a href="{{ url_for('home') }}" class="logo">
+      <div class="logo-icon">📖</div>
+      <span class="logo-text">Personal Space</span>
+    </a>
+    <nav class="nav-links">
+      <a href="{{ url_for('login') }}" class="btn btn-ghost">Log In</a>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <span class="sticker" style="top:12%;left:9%;animation-delay:0s;">💗</span>
+    <span class="sticker" style="top:20%;right:11%;animation-delay:1s;font-size:30px;">🌟</span>
+    <span class="sticker" style="bottom:22%;left:7%;animation-delay:0.6s;">🌙</span>
+    <span class="sticker" style="bottom:18%;right:9%;animation-delay:2.2s;font-size:28px;">🌸</span>
+
+    <div class="glass-card auth-card">
+      <div class="auth-header">
+        <div class="auth-icon">✨</div>
+        <h1 class="auth-title">Create your space</h1>
+        <p class="auth-subtitle">Begin your diary journey today 🌸</p>
+      </div>
+
+      <form method="POST" id="signup-form">
+        <div class="form-group">
+          <label class="form-label" for="name">Your Name</label>
+          <div class="form-input-icon">
+            <span class="icon">🌷</span>
+            <input
+              class="form-input"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="What shall we call you?"
+              required
+              autocomplete="name"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <div class="form-input-icon">
+            <span class="icon">📧</span>
+            <input
+              class="form-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="form-input-icon">
+            <span class="icon">🔑</span>
+            <input
+              class="form-input"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Create a secret key..."
+              required
+              minlength="6"
+              autocomplete="new-password"
+            >
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary form-submit" id="signup-btn">
+          Open My Personal Space 🌸
+        </button>
+      </form>
+
+      <p class="form-footer">
+        Already have an account? <a href="{{ url_for('login') }}">Log in →</a>
+      </p>
+    </div>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
